@@ -15,13 +15,56 @@ const Home = () => {
     const [loading, setLoading] = useState(false)
     const [allPosts, setAllPosts] = useState(null)
 
-    const [searchText, setSetSearchText] = useState('Abc')
+    const [searchText, setSetSearchText] = useState('')
+    const [searchedResults, setSearchedResults] = useState(null)
+    const [searchTimeout, setSearchTimeout] = useState(null)
+
+    useEffect(() => {
+        const fetchPost = async () => {
+            setLoading(true)
+
+            try {
+                const response = await fetch('http://localhost:8080/api/v1/post', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                })
+
+                if (response.ok) {
+                    const result = await response.json();
+
+                    setAllPosts(results.data.reverse());
+                }
+            } catch (error) {
+                alert(err)
+            } finally {
+                setLoading(false)
+            }
+        }
+
+        // fetchPost()
+    }, [])
+
+
+    const handleSearchChange = (e) => {
+        clearTimeout(searchTimeout);
+        setSetSearchText(e.target.value);
+
+        setSearchTimeout(
+            setTimeout(() => {
+                const searchResults = allPosts.filter((item) => item.name.toLowerCase().includes(searchText.toLowerCase()) || item.prompt.toLowerCase().includes(searchText.toLowerCase()));
+
+                setSearchedResults(searchResults);
+            }, 500)
+        )
+    }
 
     return (
         <section className="max-w-7xl mx-auto">
 
             <div className="mt-16">
-                <FormField />
+                <FormField labelName="Search posts" type="text" name="text" placeholder="Search posts" value={searchText} handleChange={handleSearchChange} />
             </div>
 
             <div className="mt-10">
@@ -46,7 +89,7 @@ const Home = () => {
                                 ) :
                                     (
                                         <RenderCards
-                                            data={[]}
+                                            data={allPosts}
                                             title="No Posts Found"
                                         />
                                     )
