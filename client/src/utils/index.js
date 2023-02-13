@@ -12,7 +12,6 @@ export function getRandomPrompt(prompt) {
 
 export async function downloadImage(prompt, photo) {
 	// FileSaver.saveAs(photo, `download-${_id}.jpg`);
-	console.log(prompt);
 	const image = await fetch(photo);
 	const imageBlog = await image.blob();
 	const imageURL = URL.createObjectURL(imageBlog);
