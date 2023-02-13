@@ -10,7 +10,7 @@ export function getRandomPrompt(prompt) {
 	return randomPrompt;
 }
 
-export async function downloadImage(prompt, photo) {
+export async function downloadImage(_id, photo) {
 	// FileSaver.saveAs(photo, `download-${_id}.jpg`);
 	const image = await fetch(photo);
 	const imageBlog = await image.blob();
@@ -18,7 +18,7 @@ export async function downloadImage(prompt, photo) {
 
 	const link = document.createElement("a");
 	link.href = imageURL;
-	link.download = `${prompt}.jpg`;
+	link.download = `download-${_id._id}.jpg`;
 	document.body.appendChild(link);
 	link.click();
 	document.body.removeChild(link);
