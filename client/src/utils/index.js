@@ -13,14 +13,12 @@ export function getRandomPrompt(prompt) {
 export async function downloadImage(_id, photo) {
 	// FileSaver.saveAs(photo, `download-${_id}.jpg`);
 	const image = await fetch(photo);
-	console.log(image);
-	console.log(_id);
 	const imageBlog = await image.blob();
 	const imageURL = URL.createObjectURL(imageBlog);
 
 	const link = document.createElement("a");
 	link.href = imageURL;
-	link.download = `download-${_id}.jpg`;
+	link.download = `download-${_id._id}.jpg`;
 	document.body.appendChild(link);
 	link.click();
 	document.body.removeChild(link);
