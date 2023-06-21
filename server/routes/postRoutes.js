@@ -16,6 +16,7 @@ cloudinary.config({
 
 // GET ALL POSTS
 router.route("/").get(async (req, res) => {
+	res.setHeader("Access-Control-Allow-Origin", "*");
 	try {
 		const posts = await Post.find({});
 
@@ -36,7 +37,7 @@ router.route("/").post(async (req, res) => {
 			prompt,
 			photo: photoUrl.url,
 		});
-
+		res.setHeader("Access-Control-Allow-Origin", "*");
 		res.status(200).json({ success: true, data: newPost });
 		res.send();
 	} catch (error) {
